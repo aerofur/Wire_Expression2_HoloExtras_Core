@@ -43,8 +43,10 @@ end
 -- Removes the holograms from a given entity.
 local function clearEntityHolos(self,this)
     for index,Holo in pairs(self.data.holos) do
-        if Holo.ent:GetParent() == this then
-            remove_holo(Holo)
+        if Holo ~= nil then
+            if Holo.ent:GetParent() == this then
+                remove_holo(Holo)
+            end
         end
     end
 end
