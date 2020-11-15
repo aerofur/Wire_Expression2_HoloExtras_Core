@@ -51,6 +51,17 @@ local function clearEntityHolos(self,this)
     end
 end
 
+-- This will remove all the holos, even if you dont own the holos. Use this very sparingly.
+local function clearEntityHolosRecursive(self,this)
+    for index,Holo in pairs(self.data.holos) do
+        if Holo ~= nil then
+            if Holo.ent:GetParent() == this then
+                remove_holo(Holo)
+            end
+        end
+    end
+end
+
 local function clearEntityHolo(self,this,index)
     local Holo = self.data.holos[index]
     if Holo ~= nil then
@@ -65,6 +76,13 @@ e2function number entity:holoDeleteAll()
     if not checkOwner(self) then return end
     if BlockList[self.player:SteamID()] == true then return end
     clearEntityHolos(self,this)
+end
+
+e2function number entity:holoDeleteAllRecursive()
+    if not IsValid(this) then return end
+    if not checkOwner(self) then return end
+    if BlockList[self.player:SteamID()] == true then return end
+    clearEntityHolosRecursive(self,this)
 end
 
 e2function number entity:holoDelete(index)
